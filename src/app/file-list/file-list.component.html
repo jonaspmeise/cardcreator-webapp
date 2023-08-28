@@ -1,26 +1,22 @@
 <div class="container mt-4">
-    <div class="center">
-        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="onDrop($event)" 
-        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                wow
-                <button type="button" (click)="openFileSelector()">Browse Files</button>
-            </ng-template>
-        </ngx-file-drop>
-    </div>
-
-    <div class="upload-table">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody class="upload-name-style">
-                <tr *ngFor="let item of files; let i=index">
-                    <td><strong>{{ item.relativePath }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-6">
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th class="col-md-6">Wilcards</th>
+                        <th class="col-md-6">Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of files">
+                        <td class="col-md-6">{{ item.key }}</td>
+                        <td class="col-md-6">{{ item.value | abbreviate:30 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
     </div>
 </div>

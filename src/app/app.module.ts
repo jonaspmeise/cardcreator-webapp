@@ -7,12 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { FileListComponent } from './file-list/file-list.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { AbbreviatePipe } from 'src/pipes/abbreviate.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileSelectorComponent,
-    FileListComponent
+    FileListComponent,
+    AbbreviatePipe
   ],
   imports: [
     BrowserModule,

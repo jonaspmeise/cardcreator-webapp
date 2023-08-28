@@ -1,36 +1,21 @@
-import { Component } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FileKeyValue } from 'src/model/FileKeyValue';
+import { FileService } from 'src/shared/file-service/file.service';
 
 @Component({
   selector: 'app-file-list',
   templateUrl: './file-list.component.html',
   styleUrls: ['./file-list.component.css']
 })
-export class FileListComponent {
-  public files: NgxFileDropEntry[] = [];
+export class FileListComponent implements OnInit {
+  files: FileKeyValue[] = [];
+  
+  constructor(private fileService: FileService) {}
 
-  public onDrop(files: NgxFileDropEntry[]) {
-    this.files = files;
-    for (const droppedFile of files) {
-
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
-          console.log(droppedFile.relativePath, file);
-
-        });
-      } else {
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
-      }
-    }
-  }
-
-  public fileOver($event: any){
-    console.log($event);
-  }
-
-  public fileLeave($event: any){
-    console.log($event);
+  ngOnInit(): void {
+    this.fileService.files$.subscribe(files => {
+      this.files = files;
+    });
   }
 }
