@@ -25,9 +25,6 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    defaults:
-       run:
-         working-directory: ./cardcreator-webapp/
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,7 +33,7 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-          cache-dependency-path: cardcreator-webapp/package.json
+          cache-dependency-path: package.json
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -46,6 +43,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./cardcreator-webapp/docs
+          publish_dir: ./docs
           enable_jekyll: true
           publish_branch: gh-pages

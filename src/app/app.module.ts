@@ -4,15 +4,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FileSelectorComponent } from './file-selector/file-selector.component';
+import { FileListComponent } from './file-list/file-list.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FileSelectorComponent,
+    FileListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    NgxFileDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
