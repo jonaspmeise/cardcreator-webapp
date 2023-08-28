@@ -1,0 +1,48 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Compiled output
+/dist/
+/tmp/
+
+# Cache and logs
+.cache/
+.log/
+
+# Dependency directories
+/pnpm-store/
+/yarn.lock
+/pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Angular generated files
+*.js
+*.js.map
+
+# Compiled TypeScript
+*.tsbuildinfo
+
+# Angular CLI configuration file
+.angular-cli.json
+
+# Nest.js temporary files
+.nest
+
+# Testing related
+/coverage/
+/.nyc_output/
+
+# Webpack build artifacts
+/dist/
