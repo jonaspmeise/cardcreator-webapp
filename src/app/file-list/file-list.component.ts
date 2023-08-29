@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileKeyValue } from 'src/model/FileKeyValue';
-import { FileService } from 'src/shared/file-service/file.service';
+import { WorkspaceService } from 'src/shared/workspace-service/workspace.service';
 
 @Component({
   selector: 'app-file-list',
@@ -9,13 +9,11 @@ import { FileService } from 'src/shared/file-service/file.service';
   styleUrls: ['./file-list.component.css']
 })
 export class FileListComponent implements OnInit {
-  files: FileKeyValue[] = [];
+  files$!: Observable<FileKeyValue[]>;
   
-  constructor(private fileService: FileService) {}
+  constructor(private workspaceService: WorkspaceService) {}
 
   ngOnInit(): void {
-    this.fileService.files$.subscribe(files => {
-      this.files = files;
-    });
+    this.files$ = this.workspaceService.getFiles$();
   }
 }

@@ -10,9 +10,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of files">
+                    <tr [class]="'col-md-6 highlight-row'" *ngFor="let item of (files$ | async)">
                         <td class="col-md-6">{{ item.key }}</td>
-                        <td class="col-md-6">{{ item.value | abbreviate:30 }}</td>
+                        <td class="col-md-6">{{ item.value | abbreviate:40 }}</td>
                     </tr>
                 </tbody>
             </table>

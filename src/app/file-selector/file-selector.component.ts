@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
-import { FileService } from '../../shared/file-service/file.service';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
 import { FileKeyValue } from 'src/model/FileKeyValue';
+import { FiletypeConverterService } from 'src/shared/filetype-converter-service/filetype-converter.service';
+import { WorkspaceService } from 'src/shared/workspace-service/workspace.service';
 
 @Component({
   selector: 'app-file-selector',
@@ -11,23 +11,21 @@ import { FileKeyValue } from 'src/model/FileKeyValue';
 })
 export class FileSelectorComponent {
 
-  constructor(private fileService: FileService) {}
+  constructor(private workspaceService: WorkspaceService, private fileTypeConverterService: FiletypeConverterService) {}
 
   public onDrop(uploadedFiles: NgxFileDropEntry[]) {
-    console.log(uploadedFiles);
-
-    uploadedFiles.forEach(file => {
-      const fileEntry = file.fileEntry as FileSystemFileEntry;
+    uploadedFiles.forEach(ngxFile => {
+      const fileEntry = ngxFile.fileEntry as FileSystemFileEntry;
 
       fileEntry.file((file: File) => {
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
-          const content = event.target.result;
-
-          this.fileService.add(new FileKeyValue(file.webkitRelativePath, content));
-        };
-
-        reader.readAsText(file);
+        this.fileTypeConverterService.getContent(file).then(
+          content => {
+            this.workspaceService.addFile(new FileKeyValue(
+              ngxFile.relativePath, 
+              content
+            ));
+          }
+        );
       });
     });
   }

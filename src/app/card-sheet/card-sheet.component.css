@@ -1,12 +1,3 @@
-.table th,
-.table td {
-  width: 50%;
-}
-
-#table {
-    overflow-y: auto;
-}
-
 .highlight-row:hover {
   background-color: steelblue;
   cursor: pointer;
