@@ -8,11 +8,20 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
   styleUrls: ['./card-sheet.component.css']
 })
 export class CardSheetComponent implements OnInit {
-  cards$!: Observable<any[]>;
+  cards!: any[];
+  selectedCard$!: Observable<any>;
 
   constructor(private workspaceService: WorkspaceService) {}
 
-  ngOnInit(): void {
-    this.cards$ = this.workspaceService.getCards$();
+  ngOnInit(): void {    
+    this.workspaceService.cards$.subscribe(cards => {
+      this.cards = cards;
+    });
+    
+    this.selectedCard$ = this.workspaceService.selectedCard$;
+  }
+
+  onClick = (card: any) => {
+    this.workspaceService.selectCard(card);
   }
 }

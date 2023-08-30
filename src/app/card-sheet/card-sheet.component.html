@@ -1,11 +1,11 @@
-<table class="table" *ngIf="(cards$ | async)">
+<table class="table" *ngIf="cards.length > 0">
   <thead>
     <tr>
-      <th *ngFor="let key of (cards$ | async) | keys">{{ key }}</th>
+      <th *ngFor="let key of cards | keys">{{ key }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr [class]="'highlight-row'" *ngFor="let card of (cards$ | async)">
+    <tr [class]="(selectedCard$ | async) === card ? 'highlight-row' : ''" *ngFor="let card of cards" (click)="onClick(card)">
       <td class="col-md-6" *ngFor="let value of card | values">{{ value }}</td>
     </tr>
   </tbody>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FileKeyValue } from 'src/model/FileKeyValue';
+import { LoadedFile } from 'src/model/LoadedFile';
 import { WorkspaceService } from 'src/shared/workspace-service/workspace.service';
 
 @Component({
@@ -9,11 +9,17 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
   styleUrls: ['./file-list.component.css']
 })
 export class FileListComponent implements OnInit {
-  files$!: Observable<FileKeyValue[]>;
+  files: LoadedFile[] = [];
   
   constructor(private workspaceService: WorkspaceService) {}
 
   ngOnInit(): void {
-    this.files$ = this.workspaceService.getFiles$();
+    this.workspaceService.files$.subscribe((files) => { 
+      this.files = files;
+    });
+  }
+
+  loadFile = (file: LoadedFile): void => {
+    this.workspaceService.loadFile(file);
   }
 }

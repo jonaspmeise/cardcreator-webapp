@@ -1,0 +1,8 @@
+<div class="svg-editor">
+    <textarea
+        #svgTextarea
+        class="editable-div"
+        (input)="onSvgContentChange()"
+        (keydown)="handleKeydown($event)">
+    </textarea>
+</div>

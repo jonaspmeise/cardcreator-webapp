@@ -1,0 +1,11 @@
+.editable-div {
+    border: 1px solid green;
+    padding: 8px;
+    height: 80vh;
+    width: 100%;
+    font-size: 14px;
+}
+
+.editable-div:focus {
+    border-color: #007bff;
+}

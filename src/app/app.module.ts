@@ -7,10 +7,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FileSelectorComponent } from './file-selector/file-selector.component';
 import { FileListComponent } from './file-list/file-list.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
-import { AbbreviatePipe } from './pipes/abbreviate.pipe';
-import { KeysPipe } from './pipes/keys.pipe';
-import { ValuesPipe } from './pipes/values.pipe';
 import { CardSheetComponent } from './card-sheet/card-sheet.component';
+import { ImagePreviewComponent } from './image-preview/image-preview.component';
+import { SvgEditorComponent } from './svg-editor/svg-editor.component';
+import { AbbreviatePipe } from '../pipes/abbreviate.pipe';
+import { KeysPipe } from '../pipes/keys.pipe';
+import { ValuesPipe } from '../pipes/values.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { CardSheetComponent } from './card-sheet/card-sheet.component';
     AbbreviatePipe,
     ValuesPipe,
     KeysPipe,
-    CardSheetComponent
+    CardSheetComponent,
+    ImagePreviewComponent,
+    SvgEditorComponent
   ],
   imports: [
     BrowserModule,

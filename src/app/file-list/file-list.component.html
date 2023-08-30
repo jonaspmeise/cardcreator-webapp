@@ -1,22 +1,20 @@
 <div class="container mt-4">
     <div class="row">
-        <div class="col-md-6">
         <div class="table-responsive">
             <table class="table table-bordered table-responsive">
                 <thead>
                     <tr>
-                        <th class="col-md-6">Wilcards</th>
-                        <th class="col-md-6">Values</th>
+                        <th class="col-md-6">Filepaths</th>
+                        <th class="col-md-6">Content Preview</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr [class]="'col-md-6 highlight-row'" *ngFor="let item of (files$ | async)">
-                        <td class="col-md-6">{{ item.key }}</td>
-                        <td class="col-md-6">{{ item.value | abbreviate:40 }}</td>
+                    <tr class="highlight-row" (click)="loadFile(item)" *ngFor="let item of files">
+                        <td class="col-md-6">{{ item.name }}</td>
+                        <td class="col-md-6">{{ item.content | abbreviate:40 }}</td>
                     </tr>
                 </tbody>
             </table>
-            </div>
         </div>
     </div>
 </div>

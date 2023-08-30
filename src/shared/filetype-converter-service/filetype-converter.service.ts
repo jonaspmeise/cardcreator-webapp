@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { FileType } from 'src/model/FileTypes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FiletypeConverterService {
-
-  constructor() { }
-
   getContent = (file: File): Promise<string> => {
     return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
@@ -20,26 +18,39 @@ export class FiletypeConverterService {
         reject(event.target!.error);
       };
   
-      switch (this.getFileExtension(file).toLowerCase()) {
-        case 'txt':
-        case 'json':
-        case 'csv':
-          reader.readAsText(file);
+      switch (this.getFileType(file)) {
+        case 'image':
+          reader.readAsDataURL(file);
+          break;
+        case 'table':
+          reader.readAsArrayBuffer(file);
           break;
         default:
-          reader.readAsDataURL(file);
+          reader.readAsText(file);
           break;
       }
     });
   }
 
-  private getFileExtension = (file: File): string => {
+  getFileType = (file: File): FileType => {
     const fileNameParts = file.name.split('.');
 
     if (fileNameParts.length > 1) {
-      return fileNameParts.pop()!.toLowerCase();
+      switch(fileNameParts.pop()!.toLowerCase()) {
+        case 'txt':
+          return 'text';
+        case 'json':
+        case 'xlsx':
+        case 'csv':
+          return 'table';
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'bmp':
+          return 'image';
+      }
     }
 
-    return '';
+    return 'other';
   }
 }
