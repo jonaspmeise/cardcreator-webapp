@@ -13,6 +13,7 @@ import { SvgEditorComponent } from './svg-editor/svg-editor.component';
 import { AbbreviatePipe } from '../pipes/abbreviate.pipe';
 import { KeysPipe } from '../pipes/keys.pipe';
 import { ValuesPipe } from '../pipes/values.pipe';
+import { ExportComponent } from './export/export.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ValuesPipe } from '../pipes/values.pipe';
     KeysPipe,
     CardSheetComponent,
     ImagePreviewComponent,
-    SvgEditorComponent
+    SvgEditorComponent,
+    ExportComponent
   ],
   imports: [
     BrowserModule,

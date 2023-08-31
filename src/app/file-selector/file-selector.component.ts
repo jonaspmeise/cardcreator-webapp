@@ -32,12 +32,4 @@ export class FileSelectorComponent {
       });
     });
   }
-
-  public fileOver($event: any){
-    console.log($event);
-  }
-
-  public fileLeave($event: any){
-    console.log($event);
-  }
 }

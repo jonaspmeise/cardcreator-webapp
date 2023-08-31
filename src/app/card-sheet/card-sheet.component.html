@@ -1,3 +1,13 @@
+<div *ngIf="cards.length > 0">
+  <button
+    *ngFor="let sheet of (this.availableSheets$ | async)"
+    (click)="onButtonClick(sheet)"
+    class="btn btn-primary mr-2 mb-2"
+    [class.highlighted]="sheet === (this.currentSheet$ | async)"
+  >
+    {{ sheet }}
+  </button>
+</div>
 <table class="table" *ngIf="cards.length > 0">
   <thead>
     <tr>
@@ -5,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr [class]="(selectedCard$ | async) === card ? 'highlight-row' : ''" *ngFor="let card of cards" (click)="onClick(card)">
+    <tr [class.highlighted]="(selectedCard$ | async) === card" *ngFor="let card of cards" (click)="onClickCard(card)">
       <td class="col-md-6" *ngFor="let value of card | values">{{ value }}</td>
     </tr>
   </tbody>

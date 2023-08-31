@@ -10,6 +10,8 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
 export class CardSheetComponent implements OnInit {
   cards!: any[];
   selectedCard$!: Observable<any>;
+  availableSheets$!: Observable<string[]>;
+  currentSheet$!: Observable<string | null>;
 
   constructor(private workspaceService: WorkspaceService) {}
 
@@ -18,10 +20,16 @@ export class CardSheetComponent implements OnInit {
       this.cards = cards;
     });
     
+    this.availableSheets$ = this.workspaceService.availableSheets$;
+    this.currentSheet$ = this.workspaceService.currentSheet$;
     this.selectedCard$ = this.workspaceService.selectedCard$;
   }
 
-  onClick = (card: any) => {
+  onClickCard = (card: any) => {
     this.workspaceService.selectCard(card);
+  }
+
+  onButtonClick = (sheet: string) => {
+    this.workspaceService.switchSheet(sheet);
   }
 }

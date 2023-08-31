@@ -60,4 +60,10 @@ export class RenderService {
     console.log('SVG-Code after: ', code);
     return code;
   }
+
+  renderSvgXmlToBase64 = (svgCode: string): string => {
+    return `data:image/svg+xml;base64,${btoa(
+      svgCode
+    )}`;
+  }
 }

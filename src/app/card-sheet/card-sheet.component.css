@@ -1,5 +1,8 @@
-.highlight-row {
-  background-color: steelblue;
-  cursor: pointer;
+.highlighted {
+  background-color: orange;
   font-weight: bold;
+}
+
+#tr {
+  cursor: pointer;
 }
