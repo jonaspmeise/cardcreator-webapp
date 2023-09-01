@@ -1,0 +1,19 @@
+<table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+        <th></th> <!-- Empty header for delete button column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of variables | keyvalue; let i = index">
+        <td>
+          <input type="text" (change)="onChangeKey($event, entry)" [defaultValue]="entry.key" placeholder="ExampleKey">
+        </td>
+        <td>
+          <input type="text" (change)="onChangeValue($event, entry)" [defaultValue]="entry.value" placeholder="You can reference this key by using a (environment)=>{...} function!">
+        </td>
+      </tr>
+    </tbody>
+  </table>

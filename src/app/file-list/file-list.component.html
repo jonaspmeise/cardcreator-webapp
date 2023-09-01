@@ -10,7 +10,7 @@
                 </thead>
                 <tbody>
                     <tr class="highlight-row" (click)="loadFile(item)" *ngFor="let item of files">
-                        <td class="col-md-6">{{ item.name }}</td>
+                        <td class="col-md-6">{{ item.path }}</td>
                         <td class="col-md-6">{{ item.content | abbreviate:40 }}</td>
                     </tr>
                 </tbody>

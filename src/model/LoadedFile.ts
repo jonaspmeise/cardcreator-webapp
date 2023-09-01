@@ -1,3 +1,3 @@
 export class LoadedFile {
-    constructor(public file: File, public name: string, public content: any) {}
+    constructor(public file: File, public content: any, public path?: string) {}
 }

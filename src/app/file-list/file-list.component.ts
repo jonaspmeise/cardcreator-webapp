@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { LoadedFile } from 'src/model/LoadedFile';
+import { EnvironmentService } from 'src/shared/environment-service/environment.service';
 import { WorkspaceService } from 'src/shared/workspace-service/workspace.service';
 
 @Component({
@@ -11,10 +11,11 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
 export class FileListComponent implements OnInit {
   files: LoadedFile[] = [];
   
-  constructor(private workspaceService: WorkspaceService) {}
+  constructor(private workspaceService: WorkspaceService,
+    private environmentService: EnvironmentService) {}
 
   ngOnInit(): void {
-    this.workspaceService.files$.subscribe((files) => { 
+    this.environmentService.files$.subscribe((files) => { 
       this.files = files;
     });
   }

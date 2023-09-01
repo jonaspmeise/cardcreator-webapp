@@ -14,6 +14,7 @@ import { AbbreviatePipe } from '../pipes/abbreviate.pipe';
 import { KeysPipe } from '../pipes/keys.pipe';
 import { ValuesPipe } from '../pipes/values.pipe';
 import { ExportComponent } from './export/export.component';
+import { EnvironmentComponent } from './environment/environment.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ExportComponent } from './export/export.component';
     CardSheetComponent,
     ImagePreviewComponent,
     SvgEditorComponent,
-    ExportComponent
+    ExportComponent,
+    EnvironmentComponent
   ],
   imports: [
     BrowserModule,

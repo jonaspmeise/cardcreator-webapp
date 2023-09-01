@@ -13,7 +13,6 @@ import * as JSZip from 'jszip';
   providedIn: 'root'
 })
 export class WorkspaceService {
-  private filesSubject = new BehaviorSubject<LoadedFile[]>([]);
   private cardsSubject = new BehaviorSubject<any[]>([]);
   private selectedCardSubject = new BehaviorSubject<any>(null);
   private svgCodeSubject = new BehaviorSubject<string>('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" /></svg>');
@@ -22,7 +21,6 @@ export class WorkspaceService {
   private availableSheetsSubject = new BehaviorSubject<string[]>([]);
   private currentWorkbookSubject = new BehaviorSubject<XLSX.WorkBook | null>(null);
 
-  files$= this.filesSubject.asObservable();
   cards$ = this.cardsSubject.asObservable();
   selectedCard$ = this.selectedCardSubject.asObservable();
   svgCode$ = this.svgCodeSubject.asObservable();
@@ -76,16 +74,6 @@ export class WorkspaceService {
         URL.revokeObjectURL(downloadLink.href);
       });
     });
-  }
-
-  addFile = (file: LoadedFile): void => {
-    const newFiles = [...this.filesSubject.getValue(), file];
-
-    this.filesSubject.next(newFiles);
-  }
-
-  clearFiles = (): void => {
-    this.filesSubject.next([]);
   }
 
   selectCard = (card: any): void => {
