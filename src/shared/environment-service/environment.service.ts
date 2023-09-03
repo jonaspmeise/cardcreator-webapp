@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoadedFile } from 'src/model/LoadedFile';
 import { FiletypeConverterService } from '../filetype-converter-service/filetype-converter.service';
@@ -9,13 +9,41 @@ import { FiletypeConverterService } from '../filetype-converter-service/filetype
 export class EnvironmentService {
   private environmentVariablesSubject = new BehaviorSubject(new Map<string, string>());
   private filesSubject = new BehaviorSubject<LoadedFile[]>([]);
+  private environmentSubject = new BehaviorSubject(new Map<string, string>());
 
   environmentVariables$ = this.environmentVariablesSubject.asObservable();
   files$ = this.filesSubject.asObservable();
+  environment$ = this.environmentSubject.asObservable();
 
   constructor(private fileTypeConverterService: FiletypeConverterService) {
     this.environmentVariablesSubject.getValue().set('ExampleKey', 'This value can be referenced by using a (environment) => {...} function!');
     this.environmentVariablesSubject.getValue().set('','');
+
+    this.files$.subscribe((files) => {
+      const map: Map<string, string> = new Map();
+
+      [...this.environmentVariablesSubject.getValue().entries()].forEach(([key, value]) => {
+        map.set(key, value);
+      });
+      files.forEach((file) => {
+        map.set(file.path || '', file.content);
+      });
+
+      this.environmentSubject.next(map);
+    });
+
+    this.environmentVariables$.subscribe((environment) => {
+      const map: Map<string, string> = new Map();
+
+      [...environment.entries()].forEach(([key, value]) => {
+        map.set(key, value);
+      });
+      this.filesSubject.getValue().forEach((file) => {
+        map.set(file.path || '', file.content);
+      });
+
+      this.environmentSubject.next(map);
+    })
   }
   
   private setStandardEnvironmentValue() {
@@ -45,13 +73,11 @@ export class EnvironmentService {
     this.fileTypeConverterService.getContent(file).then(
       content => {
         const newFiles = [...this.filesSubject.getValue(), new LoadedFile(file, content, path)];
-
-        console.log(newFiles);
     
         this.filesSubject.next(newFiles);
       }
     );
-  }
+  };
 
   clearFiles = (): void => {
     this.filesSubject.next([]);

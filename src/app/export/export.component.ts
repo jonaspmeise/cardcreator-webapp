@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExportService } from 'src/shared/export-service/export.service';
 import { WorkspaceService } from 'src/shared/workspace-service/workspace.service';
 
 @Component({
@@ -7,17 +8,13 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
   styleUrls: ['./export.component.css']
 })
 export class ExportComponent {
-  filenameWildcard: string = '';
-
-  constructor(private workspaceService: WorkspaceService) {}
+  constructor(private exportService: ExportService) {}
 
   exportData = () => {
-    this.workspaceService.startExport(this.filenameWildcard);
+    this.exportService.startExport();
   };
 
-  onTextareaInput(value: any): void {
-    if(!value) return;
-
-    this.filenameWildcard = value;
+  onTextareaInput(target: any): void {
+    this.exportService.updateFilenameWildcard(target.value);
   }
 }

@@ -1,13 +1,33 @@
 import { Injectable, OnInit } from '@angular/core';
 import { WorkspaceService } from '../workspace-service/workspace.service';
+import { EnvironmentService } from '../environment-service/environment.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RenderService {
-  private regex = /##(?<jscode>.*)##/gs;
+  private regex = /##(?<jscode>.*?)##/gs;
+  private svgCode!: string;
+  private selectedCard!: any;
+  private environment!: Map<string, string>;
 
-  constructor() { }
+  constructor(private workspaceService: WorkspaceService,
+    private environmentService: EnvironmentService) { 
+      this.workspaceService.selectedCard$.subscribe((card) => {
+        this.selectedCard = card;
+        this.updateSVG();
+      });
+  
+      this.workspaceService.svgCode$.subscribe((svgCode) => {
+        this.svgCode = svgCode;
+        
+        this.updateSVG();
+      });
+  
+      this.environmentService.environment$.subscribe((environment) => {
+        this.environment = environment;
+      });
+    }
 
   //FIXME: This is ineffective because we re-built our parsing functions for every iteration;
   // better: build the functions once, then iterate over all elements 
@@ -24,8 +44,7 @@ export class RenderService {
       .filter(str => str.length > 0);
   }
 
-  evaluateFunctions = (code: string, card = {}, environment = {}): string => {
-    console.log('evaluate with card', card);
+  evaluateFunctions = (code: string, card = {}, environment?: Map<string, string>): string => {
     const functionDefinitions: string[] = [];
 
     let match;
@@ -36,10 +55,9 @@ export class RenderService {
     if(!functionDefinitions) return code;
 
     functionDefinitions.forEach(definition => {
-      console.log('evaluation definition...', definition);
       const interpolationFunction: Function = eval(definition);
       const interpolationArguments = this.getFunctionArguments(interpolationFunction);
-
+      
       const args: any[] = interpolationArguments.map(arg => {
         if(arg === 'card') {
           return card;
@@ -50,14 +68,10 @@ export class RenderService {
         }
       });
 
-      console.log('Calling with arguments...', args);
-
       const value = interpolationFunction.apply(null, args);
-      console.log('value', value);
       code = code.replace(`##${definition}##`, value); //TODO: Change this according to the query regex
     });
     
-    console.log('SVG-Code after: ', code);
     return code;
   }
 
@@ -65,5 +79,11 @@ export class RenderService {
     return `data:image/svg+xml;base64,${btoa(
       svgCode
     )}`;
+  }
+
+  private updateSVG = () => {
+    const afterFunctionCode = this.evaluateFunctions(this.svgCode, this.selectedCard, this.environment); 
+
+    this.workspaceService.showImage(this.renderSvgXmlToBase64(afterFunctionCode));
   }
 }

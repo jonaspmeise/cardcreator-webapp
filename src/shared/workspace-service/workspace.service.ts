@@ -30,62 +30,25 @@ export class WorkspaceService {
   currentWorkbook$ = this.currentWorkbookSubject.asObservable();
 
   constructor(private fileTypeConverterService: FiletypeConverterService, 
-    private excelLoaderService: ExcelLoaderService,
-    private renderService: RenderService,
-    private exportService: ExportService) {}
-
-  renderSVG = (svgCode: string): void => {
-    this.svgCodeSubject.next(svgCode);
-    this.updateSVG();
-  }
-
-  private updateSVG = () => {
-    const svgCode = this.svgCodeSubject.getValue();
-    const afterFunctionCode = this.renderService.evaluateFunctions(svgCode, this.selectedCardSubject.getValue()); 
-
-    this.imageSubject.next(this.renderService.renderSvgXmlToBase64(afterFunctionCode));
-  }
-
-  startExport = (filenameWildcard: string) => {
-    const svgCode = this.svgCodeSubject.getValue();
-    const zip = new JSZip();
-
-    Promise.all(this.cardsSubject.getValue().map(card => {
-      const imageSvgCode = this.renderService.evaluateFunctions(svgCode, card);
-      
-      return this.exportService.render(
-        this.renderService.renderSvgXmlToBase64(imageSvgCode), 
-        this.renderService.evaluateFunctions(filenameWildcard, card));
-    })).then((blobs) => {
-      blobs
-        .forEach((blob) => {
-          if(!blob.blob) return;
-
-          zip.file(blob.filename, blob.blob);
-        });
-
-      zip.generateAsync({ type: 'blob' }).then((zipBlob) => {
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(zipBlob);
-
-        downloadLink.download = 'images.zip';
-        downloadLink.click();
-  
-        URL.revokeObjectURL(downloadLink.href);
-      });
-    });
-  }
+    private excelLoaderService: ExcelLoaderService) {}
 
   selectCard = (card: any): void => {
     this.selectedCardSubject.next(card);
-    this.updateSVG();
-  }
+  };
 
   switchSheet = (sheet: any): void => {
     if(!this.availableSheetsSubject.getValue().includes(sheet)) return;
 
     this.currentSheetSubject.next(sheet);
     this.updateCards();
+  };
+
+  showImage = (image: string): void => {
+    this.imageSubject.next(image);
+  };
+
+  updateSVGCode = (svgCode: string): void => {
+    this.svgCodeSubject.next(svgCode);
   }
 
   updateCards = (): void => {
@@ -96,7 +59,7 @@ export class WorkspaceService {
       workbook, 
       this.currentSheetSubject.getValue()
     ));
-  }
+  };
 
   loadFile = (file: LoadedFile): void => {
     const type = this.fileTypeConverterService.getFileType(file.file);
