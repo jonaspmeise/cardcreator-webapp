@@ -19,7 +19,7 @@ export class ExcelLoaderService {
       .map((row: any[]) => {
         const obj: any = {};
         
-        for (let i = 0; i < jsonData[0].length; i++) {
+        for (let i = 0; i < header.length; i++) {
           obj[header[i]] = row[i];
         }
 

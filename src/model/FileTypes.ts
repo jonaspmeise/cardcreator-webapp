@@ -1,1 +1,1 @@
-export type FileType = 'image'| 'text'| 'table'| 'other'
+export type FileType = 'image'| 'text'| 'table' | 'project' | 'other'

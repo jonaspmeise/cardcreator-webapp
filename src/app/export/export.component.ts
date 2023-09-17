@@ -8,7 +8,8 @@ import { WorkspaceService } from 'src/shared/workspace-service/workspace.service
   styleUrls: ['./export.component.css']
 })
 export class ExportComponent {
-  constructor(private exportService: ExportService) {}
+  constructor(private exportService: ExportService,
+    private workspaceService: WorkspaceService) {}
 
   exportData = () => {
     this.exportService.startExport();
@@ -16,5 +17,9 @@ export class ExportComponent {
 
   onTextareaInput(target: any): void {
     this.exportService.updateFilenameWildcard(target.value);
+  }
+
+  exportSettings = () => {
+    this.workspaceService.saveSettings();
   }
 }

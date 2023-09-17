@@ -37,6 +37,8 @@ export class FiletypeConverterService {
 
     if (fileNameParts.length > 1) {
       switch(fileNameParts.pop()!.toLowerCase()) {
+        case 'project':
+          return 'project';
         case 'txt':
           return 'text';
         case 'json':

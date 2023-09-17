@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { LoadedFile } from 'src/model/LoadedFile';
 import { FiletypeConverterService } from '../filetype-converter-service/filetype-converter.service';
+import { StringMappingType } from 'typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +82,22 @@ export class EnvironmentService {
 
   clearFiles = (): void => {
     this.filesSubject.next([]);
+  }
+
+  getEnvironmentVariables = (): Map<string, string> => {
+    return this.environmentVariablesSubject.getValue();
+  }
+
+  //unfortunate design, but we need to be able to set the environment variables when we load the project settings
+  setEnvironmentVariables = (environmentVariables: Map<string, string>): void => {
+    console.log(environmentVariables);
+    [...environmentVariables.entries()].forEach(([key, value]) => {
+      this.changeEnvironmentKey('', key);
+      this.changeEnvironmentValue(key, value);
+    });
+  }
+
+  getFileContent = (path: string): any => {
+    return this.environmentSubject.getValue().get(path);
   }
 }

@@ -3,7 +3,8 @@
   width: 50%;
 }
 
-#table {
+.table-responsive {
+    max-height: 70vh; 
     overflow-y: auto;
 }
 
