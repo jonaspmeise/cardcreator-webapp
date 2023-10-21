@@ -18,10 +18,10 @@ export class EnvironmentComponent implements OnInit {
   }
 
   onChangeKey = (event: any, entry: {key: string, value: string}) => {
-    this.environmentService.changeEnvironmentValue(entry.key, event.target.value);
+    this.environmentService.changeEnvironmentKey(entry.key, event.target.value);
   }
 
   onChangeValue = (event: any, entry: {key: string, value: string}) => {
-    this.environmentService.changeEnvironmentKey(entry.key, event.target.value);
+    this.environmentService.changeEnvironmentValue(entry.key, event.target.value);
   }
 }

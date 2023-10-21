@@ -70,7 +70,7 @@ export class WorkspaceService {
     const projectSettings: ProjectSettings = {
       code: this.svgCodeSubject.getValue(),
       tableFilePath: this.tableFilePath,
-      environmentVariables: this.environmentService.getEnvironmentVariables()
+      environmentVariables: [...this.environmentService.getEnvironmentVariables().entries()]
     };
 
     const jsonBlob = new Blob([JSON.stringify(projectSettings, null, 2)], {

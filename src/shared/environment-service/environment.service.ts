@@ -52,6 +52,8 @@ export class EnvironmentService {
   }
   
   changeEnvironmentKey = (oldKey: string, newKey: string) => {
+    if(oldKey === newKey) return;
+    
     const map = this.environmentVariablesSubject.getValue();
 
     if(map.has(newKey)) throw Error('Duplicate Key!');
@@ -85,13 +87,14 @@ export class EnvironmentService {
   }
 
   getEnvironmentVariables = (): Map<string, string> => {
+    console.log(this.environmentVariablesSubject.getValue());
     return this.environmentVariablesSubject.getValue();
   }
 
   //unfortunate design, but we need to be able to set the environment variables when we load the project settings
-  setEnvironmentVariables = (environmentVariables: Map<string, string>): void => {
+  setEnvironmentVariables = (environmentVariables: [string, string][]): void => {
     console.log(environmentVariables);
-    [...environmentVariables.entries()].forEach(([key, value]) => {
+    environmentVariables.forEach(([key, value]) => {
       this.changeEnvironmentKey('', key);
       this.changeEnvironmentValue(key, value);
     });
