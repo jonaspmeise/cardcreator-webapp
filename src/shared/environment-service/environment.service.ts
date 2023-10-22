@@ -53,7 +53,7 @@ export class EnvironmentService {
   
   changeEnvironmentKey = (oldKey: string, newKey: string) => {
     if(oldKey === newKey) return;
-    
+
     const map = this.environmentVariablesSubject.getValue();
 
     if(map.has(newKey)) throw Error('Duplicate Key!');
@@ -61,6 +61,7 @@ export class EnvironmentService {
     map.delete(oldKey);
     map.set(newKey, map.get(oldKey) || '');
 
+    this.environmentVariablesSubject.next(map);
     this.setStandardEnvironmentValue();
   }
 
@@ -69,6 +70,7 @@ export class EnvironmentService {
 
     map.set(key, newValue || '');
 
+    this.environmentVariablesSubject.next(map);
     this.setStandardEnvironmentValue();
   }
 
